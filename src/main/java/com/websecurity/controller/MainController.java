@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class MainController {
-
-    @RequestMapping(method = RequestMethod.GET)
-    public String start(Model model)
-    {
+    @RequestMapping(method= RequestMethod.GET)
+    public String start(Model model) {
         return "index";
     }
 }

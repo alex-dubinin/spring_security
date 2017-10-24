@@ -10,9 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
+import com.websecurity.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -20,24 +18,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
+    private UserDetailsServiceImpl userDetailsService;
     @Autowired
     public void registerGlobalAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.
-                userDetailsService(userDetailsService).
-                passwordEncoder(getShaPasswordEncoder());
-
-
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(getShaPasswordEncoder());
     }
-
-
-//---------------------------------------
-//    private PasswordEncoder getShaPasswordEncoder() {return null;}
-
-
-
-//===========================================
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // включаем защиту от CSRF атак
@@ -72,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login?logout")
                 // делаем не валидной текущую сессию
                 .invalidateHttpSession(true);
+
     }
     @Bean
     public ShaPasswordEncoder getShaPasswordEncoder(){
@@ -79,4 +67,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
-
